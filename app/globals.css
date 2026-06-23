@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+/*
+  Lumivita design tokens — from docs/design_handoff_lumivita_landing/README.md.
+  Tailwind v4: tokens declared here become utilities (e.g. bg-sand, text-amber,
+  font-display). Raw hex/alpha values live in the design source of truth.
+*/
+@theme {
+  /* Brand palette */
+  --color-sand: #f0ede6; /* page bg, light text on dark */
+  --color-sand-darker: #e6e1d6; /* differentiation section bg */
+  --color-ink: #1c2b3a; /* dark sections, headings, primary button */
+  --color-ink-deep: #13202c; /* footer bg */
+  --color-amber: #e8956d; /* accent, pills, glow, italic emphasis */
+  --color-forest: #2d4a3e; /* supplements card + trust checkmarks */
+  --color-body: #475569; /* paragraphs on light bg */
+  --color-body-muted: #5b6573; /* card descriptions */
+
+  /* Type */
+  --font-display: var(--font-cormorant), Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  /* Shape */
+  --radius-card: 6px;
+  --radius-pill: 100px;
+
+  /* Single responsive breakpoint (768px collapse) */
+  --breakpoint-md: 768px;
+}
+
+html,
+body {
+  background: var(--color-sand);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
