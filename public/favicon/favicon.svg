@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Lumivita">
+  <rect width="512" height="512" rx="133" ry="133" fill="#1C2B3A"></rect>
+  <g transform="translate(128,91.47) scale(1.939)">
+    <path d="M6 40 Q66 -2 126 40 Q66 24 6 40 Z" fill="#E8956D"></path>
+  </g>
+  <text x="256" y="372.74" text-anchor="middle" letter-spacing="7" font-family="&#39;Cormorant Garamond&#39;, Georgia, &#39;Times New Roman&#39;, serif" font-weight="600" font-size="225.28" fill="#F4F1EA">LV</text>
+</svg>
