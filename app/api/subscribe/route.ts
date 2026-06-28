@@ -52,9 +52,8 @@ export async function POST(req: Request) {
   const outcome = await addSubscriber(email);
   switch (outcome) {
     case "ok":
-    // Already on the list → still a success for the user, and returning 200
-    // (rather than 409) avoids leaking who is subscribed.
-    case "duplicate":
+      // Added to the PENDING list. The Brevo automation now emails them a
+      // confirmation link; they only reach CONFIRMED once they click it.
       return NextResponse.json({ ok: true });
     case "not_configured":
       return NextResponse.json({ error: "not_configured" }, { status: 503 });

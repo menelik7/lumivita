@@ -51,7 +51,7 @@ export function SignupForm({
 							: "border border-ink/15 bg-ink/6 text-ink"
 					}`}
 				>
-					Takk. Vi gir deg beskjed når vi åpner.
+					Sjekk e-posten din og bekreft påmeldingen.
 				</div>
 			</div>
 		);

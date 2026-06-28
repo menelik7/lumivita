@@ -1,88 +1,69 @@
 /**
- * Email provider abstraction.
+ * Email provider abstraction (Brevo).
  *
- * The route handler talks only to `addSubscriber` — the concrete provider
- * (currently Brevo) is isolated here so it can be swapped for Klaviyo /
- * MailerLite later without touching the API route or the form.
+ * Early-access uses an AUTOMATION-based double opt-in — the correct pattern for
+ * a sign-up form built OUTSIDE Brevo. This module's only job is to upsert the
+ * contact into the PENDING list; a Brevo automation then sends the branded
+ * confirmation email and, on click, moves the contact to the CONFIRMED list.
  *
- * Config is env-driven and server-only (never NEXT_PUBLIC_*):
- *   BREVO_API_KEY            required — server API key
- *   BREVO_LIST_ID            required — numeric early-access list id
- *   BREVO_DOI_TEMPLATE_ID    optional — numeric double-opt-in template id
- *   BREVO_DOI_REDIRECT_URL   optional — post-confirmation redirect URL
+ * We deliberately do NOT call POST /contacts/doubleOptinConfirmation — that
+ * endpoint only accepts DOI templates created through Brevo's own sign-up forms
+ * (not standalone templates), and isn't the recommended fit for an external
+ * form. See docs/ROADMAP.md D1.4 for the automation setup.
  *
- * When BOTH DOI vars are present the contact is created through Brevo's GDPR
- * double-opt-in flow (a confirmation email is sent first). Otherwise the
- * contact is added directly (single opt-in). Until the two REQUIRED vars are
- * set, this returns "not_configured" and never calls the provider.
+ * Config (server-only, never NEXT_PUBLIC_*):
+ *   BREVO_API_KEY          required — server API key
+ *   BREVO_PENDING_LIST_ID  required — numeric id of the EARLY_ACCESS_PENDING list
+ *   BREVO_BASE_URL         optional — defaults to https://api.brevo.com/v3
+ *
+ * The CONFIRMED list is managed entirely by the Brevo automation, so the
+ * backend never needs its id.
  */
 
-const BREVO_BASE = "https://api.brevo.com/v3";
+const BREVO_BASE = process.env.BREVO_BASE_URL || "https://api.brevo.com/v3";
 
-export type SubscribeOutcome =
-  | "ok"
-  | "duplicate"
-  | "not_configured"
-  | "provider_error";
+export type SubscribeOutcome = "ok" | "not_configured" | "provider_error";
 
 export async function addSubscriber(email: string): Promise<SubscribeOutcome> {
   const apiKey = process.env.BREVO_API_KEY;
-  const listId = process.env.BREVO_LIST_ID;
+  const pendingListId = process.env.BREVO_PENDING_LIST_ID;
 
-  // Inert until the client supplies both required keys.
-  if (!apiKey || !listId) return "not_configured";
-  const listIdNum = Number(listId);
-  if (!Number.isInteger(listIdNum)) return "not_configured";
-
-  const doiTemplateId = process.env.BREVO_DOI_TEMPLATE_ID;
-  const doiRedirectUrl = process.env.BREVO_DOI_REDIRECT_URL;
-  const useDoi = Boolean(doiTemplateId && doiRedirectUrl);
-
-  const headers = {
-    "api-key": apiKey,
-    "content-type": "application/json",
-    accept: "application/json",
-  };
+  // Inert until both required vars exist.
+  if (!apiKey || !pendingListId) return "not_configured";
+  const listId = Number(pendingListId);
+  if (!Number.isInteger(listId)) return "not_configured";
 
   try {
-    const res = useDoi
-      ? await fetch(`${BREVO_BASE}/contacts/doubleOptinConfirmation`, {
-          method: "POST",
-          headers,
-          body: JSON.stringify({
-            email,
-            includeListIds: [listIdNum],
-            templateId: Number(doiTemplateId),
-            redirectionUrl: doiRedirectUrl,
-          }),
-        })
-      : await fetch(`${BREVO_BASE}/contacts`, {
-          method: "POST",
-          headers,
-          body: JSON.stringify({
-            email,
-            listIds: [listIdNum],
-            updateEnabled: true,
-          }),
-        });
+    const res = await fetch(`${BREVO_BASE}/contacts`, {
+      method: "POST",
+      headers: {
+        "api-key": apiKey,
+        "content-type": "application/json",
+        accept: "application/json",
+      },
+      // updateEnabled makes this an idempotent upsert: create-or-update the
+      // contact and (re)add it to the pending list. Repeat submits are safe.
+      body: JSON.stringify({
+        email,
+        listIds: [listId],
+        updateEnabled: true,
+      }),
+    });
 
     // 201 created / 204 updated — both success.
     if (res.ok) return "ok";
 
-    // Read the error body once so we can both classify and log it.
     const body = (await res.json().catch(() => null)) as {
       code?: string;
       message?: string;
     } | null;
 
-    // Brevo flags an already-known contact with code "duplicate_parameter".
-    if (res.status === 400 && body?.code === "duplicate_parameter") {
-      return "duplicate";
-    }
+    // With updateEnabled this rarely fires, but an existing contact still means
+    // the goal (they're on the pending list) is met — treat it as success.
+    if (res.status === 400 && body?.code === "duplicate_parameter") return "ok";
 
-    // Surface the real Brevo error in the server log (was previously swallowed).
     console.error(
-      `[email-provider] Brevo ${useDoi ? "DOI" : "contacts"} call failed (${res.status}):`,
+      `[email-provider] Brevo contacts call failed (${res.status}):`,
       body,
     );
     return "provider_error";
