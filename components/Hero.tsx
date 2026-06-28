@@ -21,7 +21,7 @@ export function Hero() {
 				</p>
 				<SignupForm
 					variant="light"
-					id="tilgang"
+					id="pamelding"
 					className="max-w-110 scroll-mt-28"
 				/>
 				<p className="mt-4 text-xs text-ink/42">
