@@ -29,7 +29,7 @@ function CheckBadge() {
 export function TrustRow() {
   return (
     <div
-      id="tillit"
+      id="samarbeid"
       className="scroll-mt-20 border-y border-ink/8 bg-sand px-[6vw] py-9.5"
     >
       <div className="mx-auto flex max-w-260 flex-col items-start gap-3.75 md:flex-row md:flex-wrap md:items-center md:justify-between md:gap-x-7 md:gap-y-4">
