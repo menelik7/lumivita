@@ -39,17 +39,17 @@ const products: Product[] = [
 export function ProductGrid() {
   return (
     <section id="produkter" className="scroll-mt-20 bg-sand px-[6vw] py-24">
-      <div className="mx-auto mb-14 max-w-[880px] text-center">
+      <div className="mx-auto mb-14 max-w-220 text-center">
         <Eyebrow className="mb-5">Produktkategorier</Eyebrow>
         <h2 className="mb-5 font-display text-[32px] font-normal leading-[1.1] text-ink md:text-[44px]">
           Valgt på klinisk <em className="text-amber">grunnlag</em>
         </h2>
-        <p className="mx-auto max-w-[540px] text-base leading-[1.7] text-body">
+        <p className="mx-auto max-w-135 text-base leading-[1.7] text-body">
           Hvert produkt er her fordi forskning og helsefaglig erfaring sier det
           hjelper.
         </p>
       </div>
-      <div className="mx-auto grid max-w-[980px] grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="mx-auto grid max-w-245 grid-cols-1 gap-6 md:grid-cols-2">
         {products.map((product) => (
           <ProductCard key={product.title} {...product} />
         ))}

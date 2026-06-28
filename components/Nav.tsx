@@ -10,7 +10,7 @@ export function Nav() {
   return (
     <nav className="sticky top-0 z-50 flex items-center justify-between border-b border-ink/8 bg-sand/92 px-[6vw] py-5 backdrop-blur-[10px]">
       <LogoButton />
-      <div className="flex items-center gap-0 md:gap-[30px]">
+      <div className="flex items-center gap-0 md:gap-7.5">
         {links.map((l) => (
           <a
             key={l.href}
@@ -22,7 +22,7 @@ export function Nav() {
         ))}
         <a
           href="#tilgang"
-          className="rounded-pill bg-amber px-[22px] py-[11px] text-[11px] font-semibold uppercase tracking-[0.14em] text-ink"
+          className="rounded-pill bg-amber px-5.5 py-2.75 text-[11px] font-semibold uppercase tracking-[0.14em] text-ink"
         >
           Tidlig tilgang
         </a>

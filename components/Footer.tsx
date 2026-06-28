@@ -24,9 +24,9 @@ const socials = [
 export function Footer() {
   return (
     <footer className="bg-ink-deep px-[6vw] pb-9 pt-14">
-      <div className="mx-auto flex max-w-[1040px] flex-col items-start gap-10 border-b border-sand/8 pb-9 md:flex-row md:justify-between">
+      <div className="mx-auto flex max-w-260 flex-col items-start gap-10 border-b border-sand/8 pb-9 md:flex-row md:justify-between">
         <div>
-          <div className="mb-[14px] inline-flex">
+          <div className="mb-3.5 inline-flex">
             <LogoLockup variant="dark" />
           </div>
           <div className="mb-1.5 font-display text-[17px] italic text-sand/60">
@@ -43,7 +43,7 @@ export function Footer() {
           >
             post@lumivita.no
           </a>
-          <div className="mt-4 flex gap-[14px] md:justify-end">
+          <div className="mt-4 flex gap-3.5 md:justify-end">
             {socials.map((social) => {
               const icon = (
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden>
@@ -51,7 +51,7 @@ export function Footer() {
                 </svg>
               );
               const base =
-                "flex h-[34px] w-[34px] items-center justify-center rounded-full border";
+                "flex h-8.5 w-8.5 items-center justify-center rounded-full border";
               return social.enabled ? (
                 <a
                   key={social.label}
@@ -77,9 +77,9 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="mx-auto mt-5 flex max-w-[1040px] flex-col gap-2 text-[11px] tracking-[0.06em] text-sand/34 md:flex-row md:justify-between">
+      <div className="mx-auto mt-5 flex max-w-260 flex-col gap-2 text-[11px] tracking-[0.06em] text-sand/34 md:flex-row md:justify-between">
         <span>Lumivita · Organisasjonsnummer oppgis ved lansering</span>
-        <span>© 2025 Lumivita</span>
+        <span>© 2026 Lumivita</span>
       </div>
     </footer>
   );

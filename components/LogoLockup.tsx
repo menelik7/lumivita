@@ -13,7 +13,7 @@ type Variant = "light" | "dark";
 export function LogoLockup({ variant = "light" }: { variant?: Variant }) {
   const dark = variant === "dark";
   return (
-    <div className={`flex flex-col items-center ${dark ? "gap-1.5" : "gap-[5px]"}`}>
+    <div className={`flex flex-col items-center ${dark ? "gap-1.5" : "gap-1.25"}`}>
       <Image
         src={dark ? "/logo/lumivita-mark-amber.svg" : "/logo/lumivita-mark.svg"}
         alt=""

@@ -8,7 +8,7 @@ const badges = [
 
 function CheckBadge() {
   return (
-    <span className="flex h-[21px] w-[21px] flex-none items-center justify-center rounded-full bg-forest/14">
+    <span className="flex h-5.25 w-5.25 flex-none items-center justify-center rounded-full bg-forest/14">
       <svg
         width="11"
         height="11"
@@ -30,13 +30,13 @@ export function TrustRow() {
   return (
     <div
       id="tillit"
-      className="scroll-mt-20 border-y border-ink/8 bg-sand px-[6vw] py-[38px]"
+      className="scroll-mt-20 border-y border-ink/8 bg-sand px-[6vw] py-9.5"
     >
-      <div className="mx-auto flex max-w-[1040px] flex-col items-start gap-[15px] md:flex-row md:flex-wrap md:items-center md:justify-between md:gap-x-7 md:gap-y-4">
+      <div className="mx-auto flex max-w-260 flex-col items-start gap-3.75 md:flex-row md:flex-wrap md:items-center md:justify-between md:gap-x-7 md:gap-y-4">
         {badges.map((label) => (
           <span
             key={label}
-            className="flex items-center gap-[9px] text-xs tracking-[0.03em] text-body"
+            className="flex items-center gap-2.25 text-xs tracking-[0.03em] text-body"
           >
             <CheckBadge />
             {label}

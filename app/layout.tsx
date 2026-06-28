@@ -20,7 +20,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Lumivita — Vintervelvære, vitenskapelig fundert",
   description:
-    "Vitenskapelig funderte produkter for kropp og søvn når dagslyset blir borte. Vi åpner høst 2025 — bli blant de første.",
+    "Vitenskapelig funderte produkter for kropp og søvn når dagslyset blir borte. Vi åpner høst 2026 — bli blant de første.",
   icons: {
     icon: [
       // NOTE: no SVG icon on purpose — its "LV" is drawn with Cormorant

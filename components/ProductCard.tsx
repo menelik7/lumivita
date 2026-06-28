@@ -20,13 +20,13 @@ export function ProductCard({
   const forest = accent === "forest";
   return (
     <div
-      className={`group cursor-pointer overflow-hidden rounded-card border bg-white transition duration-[250ms] hover:-translate-y-[5px] hover:shadow-[0_18px_42px_rgba(28,43,58,0.16)] ${
+      className={`group cursor-pointer overflow-hidden rounded-card border bg-white transition duration-250 hover:-translate-y-1.25 hover:shadow-[0_18px_42px_rgba(28,43,58,0.16)] ${
         forest
           ? "border-forest/18 hover:border-forest/50"
           : "border-ink/8 hover:border-amber/45"
       }`}
     >
-      <div className={`relative h-[190px] ${forest ? "bg-forest" : "bg-ink"}`}>
+      <div className={`relative h-47.5 ${forest ? "bg-forest" : "bg-ink"}`}>
         <Image
           src={image}
           alt=""
@@ -35,9 +35,9 @@ export function ProductCard({
           className="object-cover"
         />
       </div>
-      <div className="px-7 pb-7 pt-[26px]">
+      <div className="px-7 pb-7 pt-6.5">
         <h3
-          className={`mb-[10px] font-display text-2xl font-medium ${
+          className={`mb-2.5 font-display text-2xl font-medium ${
             forest ? "text-forest" : "text-ink"
           }`}
         >
@@ -46,7 +46,7 @@ export function ProductCard({
         <p className="mb-4 text-sm leading-[1.65] text-body-muted">
           {description}
         </p>
-        <div className="flex flex-col items-start gap-[9px] md:flex-row md:items-center md:justify-between md:gap-[10px]">
+        <div className="flex flex-col items-start gap-2.25 md:flex-row md:items-center md:justify-between md:gap-2.5">
           <span
             className={`text-[10px] uppercase tracking-[0.13em] ${
               forest ? "text-forest/60" : "text-ink/45"
@@ -59,7 +59,7 @@ export function ProductCard({
               forest ? "text-forest" : "text-amber"
             }`}
           >
-            Lanseres høst 2025
+            Lanseres høst 2026
           </span>
         </div>
       </div>

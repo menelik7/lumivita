@@ -20,10 +20,10 @@ const columns = [
 
 export function Differentiation() {
   return (
-    <section className="bg-sand-darker px-[6vw] py-[90px]">
-      <div className="mx-auto max-w-[980px]">
-        <div className="mb-[50px] text-center">
-          <Eyebrow className="mb-[18px]">Hva gjør oss annerledes</Eyebrow>
+    <section className="bg-sand-darker px-[6vw] py-22.5">
+      <div className="mx-auto max-w-245">
+        <div className="mb-12.5 text-center">
+          <Eyebrow className="mb-4.5">Hva gjør oss annerledes</Eyebrow>
           <h2 className="font-display text-[32px] font-normal leading-[1.1] text-ink md:text-[40px]">
             Du kjøper ikke en lampe.
             <br />
@@ -39,7 +39,7 @@ export function Differentiation() {
               <div className="mb-4 font-display text-[30px] text-amber">
                 {column.number}
               </div>
-              <h3 className="mb-[10px] text-[17px] font-semibold text-ink">
+              <h3 className="mb-2.5 text-[17px] font-semibold text-ink">
                 {column.title}
               </h3>
               <p className="text-sm leading-[1.65] text-body-muted">
