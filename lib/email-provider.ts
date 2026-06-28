@@ -69,14 +69,22 @@ export async function addSubscriber(email: string): Promise<SubscribeOutcome> {
     // 201 created / 204 updated — both success.
     if (res.ok) return "ok";
 
+    // Read the error body once so we can both classify and log it.
+    const body = (await res.json().catch(() => null)) as {
+      code?: string;
+      message?: string;
+    } | null;
+
     // Brevo flags an already-known contact with code "duplicate_parameter".
-    if (res.status === 400) {
-      const body = (await res.json().catch(() => null)) as {
-        code?: string;
-      } | null;
-      if (body?.code === "duplicate_parameter") return "duplicate";
+    if (res.status === 400 && body?.code === "duplicate_parameter") {
+      return "duplicate";
     }
 
+    // Surface the real Brevo error in the server log (was previously swallowed).
+    console.error(
+      `[email-provider] Brevo ${useDoi ? "DOI" : "contacts"} call failed (${res.status}):`,
+      body,
+    );
     return "provider_error";
   } catch {
     return "provider_error";

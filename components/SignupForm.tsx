@@ -93,7 +93,7 @@ export function SignupForm({
 				<button
 					type="submit"
 					disabled={sending}
-					className={`w-full whitespace-nowrap rounded-pill px-6.5 py-3.75 text-[13px] font-semibold leading-none tracking-[0.04em] transition-opacity disabled:opacity-60 md:w-auto md:flex-none ${
+					className={`w-full cursor-pointer whitespace-nowrap rounded-pill px-6.5 py-3.75 text-[13px] font-semibold leading-none tracking-[0.04em] transition-opacity disabled:cursor-default disabled:opacity-60 md:w-auto md:flex-none ${
 						dark ? "bg-amber text-ink" : "bg-ink text-sand"
 					}`}
 				>
