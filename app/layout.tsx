@@ -18,10 +18,28 @@ const inter = Inter({
 	display: "swap",
 });
 
+const TITLE = "Lumivita — Vintervelvære, vitenskapelig fundert";
+const DESCRIPTION =
+	"Vitenskapelig funderte produkter for kropp og søvn når dagslyset blir borte. Vi åpner høst 2026 — bli blant de første.";
+
 export const metadata: Metadata = {
-	title: "Lumivita — Vintervelvære, vitenskapelig fundert",
-	description:
-		"Vitenskapelig funderte produkter for kropp og søvn når dagslyset blir borte. Vi åpner høst 2026 — bli blant de første.",
+	metadataBase: new URL("https://lumivita.no"),
+	title: TITLE,
+	description: DESCRIPTION,
+	alternates: { canonical: "/" },
+	openGraph: {
+		type: "website",
+		locale: "nb_NO",
+		url: "https://lumivita.no",
+		siteName: "Lumivita",
+		title: TITLE,
+		description: DESCRIPTION,
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: TITLE,
+		description: DESCRIPTION,
+	},
 	icons: {
 		icon: [
 			// NOTE: no SVG icon on purpose — its "LV" is drawn with Cormorant

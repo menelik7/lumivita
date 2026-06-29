@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import Link from "next/link";
 import { subscribe } from "@/lib/subscribe";
 
 type Variant = "light" | "dark";
@@ -105,6 +106,17 @@ export function SignupForm({
 					Noe gikk galt, prøv igjen.
 				</p>
 			)}
+			<p
+				className={`mt-3.5 text-xs leading-[1.6] ${
+					dark ? "text-sand/45" : "text-ink/50"
+				}`}
+			>
+				Ved å melde deg på samtykker du til vår{" "}
+				<Link href="/personvern" className="underline underline-offset-2">
+					personvernerklæring
+				</Link>
+				. Meld deg av når som helst.
+			</p>
 		</form>
 	);
 }

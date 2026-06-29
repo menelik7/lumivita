@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { LogoLockup } from "./LogoLockup";
 
 const socials = [
@@ -21,7 +22,11 @@ const socials = [
   },
 ];
 
-export function Footer() {
+export function Footer({
+  activePersonvern = false,
+}: {
+  activePersonvern?: boolean;
+}) {
   return (
     <footer className="bg-ink-deep px-[6vw] pb-9 pt-14">
       <div className="mx-auto flex max-w-260 flex-col items-start gap-10 border-b border-sand/8 pb-9 md:flex-row md:justify-between">
@@ -77,9 +82,25 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="mx-auto mt-5 flex max-w-260 flex-col gap-2 text-[11px] tracking-[0.06em] text-sand/34 md:flex-row md:justify-between">
-        <span>Lumivita · Organisasjonsnummer oppgis ved lansering</span>
-        <span>© 2026 Lumivita</span>
+      <div className="mx-auto mt-6 flex max-w-260 flex-col items-start gap-3.5 text-[11px] tracking-[0.06em] text-sand/34 md:flex-row md:items-center md:justify-between md:gap-6">
+        <div className="flex flex-col items-start gap-1.5 md:flex-row md:items-center md:gap-4">
+          <span>© 2026 Lumivita</span>
+          <span aria-hidden className="hidden text-sand/18 md:inline">
+            ·
+          </span>
+          <span>Organisasjonsnummer oppgis ved lansering</span>
+        </div>
+        <Link
+          href="/personvern"
+          aria-current={activePersonvern ? "page" : undefined}
+          className={`text-[10px] uppercase tracking-[0.18em] ${
+            activePersonvern
+              ? "text-amber"
+              : "text-sand/60 transition-colors hover:text-amber"
+          }`}
+        >
+          Personvern
+        </Link>
       </div>
     </footer>
   );
