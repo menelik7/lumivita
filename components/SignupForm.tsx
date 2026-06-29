@@ -1,13 +1,17 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useId, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { subscribe } from "@/lib/subscribe";
 
 type Variant = "light" | "dark";
-type Status = "idle" | "sending" | "done" | "error";
+type Status = "idle" | "sending" | "done";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const MSG_EMPTY = "Skriv inn e-postadressen din.";
+const MSG_INVALID = "Sjekk at e-postadressen er riktig.";
+const MSG_FAILED = "Noe gikk galt, prøv igjen.";
 
 const PILL = "rounded-pill px-6 py-4 text-sm";
 const ROW =
@@ -23,23 +27,42 @@ export function SignupForm({
 	id?: string;
 }) {
 	const dark = variant === "dark";
+	const errorId = useId();
+	const inputRef = useRef<HTMLInputElement>(null);
 	const [email, setEmail] = useState("");
 	const [company, setCompany] = useState("");
 	const [status, setStatus] = useState<Status>("idle");
+	const [error, setError] = useState<string | null>(null);
 
 	async function handleSubmit(event: FormEvent) {
 		event.preventDefault();
-		if (!EMAIL_RE.test(email.trim())) {
-			setStatus("error");
+		const value = email.trim();
+		if (!value) {
+			setError(MSG_EMPTY);
+			inputRef.current?.focus();
 			return;
 		}
+		if (!EMAIL_RE.test(value)) {
+			setError(MSG_INVALID);
+			inputRef.current?.focus();
+			return;
+		}
+		setError(null);
 		setStatus("sending");
 		try {
-			await subscribe(email.trim(), company);
+			await subscribe(value, company);
 			setStatus("done");
 		} catch {
-			setStatus("error");
+			setStatus("idle");
+			setError(MSG_FAILED);
 		}
+	}
+
+	// Flag a malformed address as soon as the user leaves the field — but don't
+	// nag an empty field on blur (that's surfaced only when they try to submit).
+	function handleBlur() {
+		const value = email.trim();
+		setError(value && !EMAIL_RE.test(value) ? MSG_INVALID : null);
 	}
 
 	if (status === "done") {
@@ -59,6 +82,11 @@ export function SignupForm({
 	}
 
 	const sending = status === "sending";
+	const borderClass = error
+		? "border-amber"
+		: dark
+			? "border-sand/20"
+			: "border-ink/16";
 
 	return (
 		<form id={id} onSubmit={handleSubmit} className={className} noValidate>
@@ -76,19 +104,25 @@ export function SignupForm({
 			/>
 			<div className="flex flex-col gap-3 md:flex-row">
 				<input
+					ref={inputRef}
 					type="email"
 					name="email"
 					aria-label="E-postadresse"
 					placeholder="din@epost.no"
+					autoComplete="email"
+					inputMode="email"
 					value={email}
 					onChange={(e) => {
 						setEmail(e.target.value);
-						if (status === "error") setStatus("idle");
+						if (error) setError(null);
 					}}
-					className={`w-full md:flex-1 ${ROW} ${
+					onBlur={handleBlur}
+					aria-invalid={error ? true : undefined}
+					aria-describedby={error ? errorId : undefined}
+					className={`w-full md:flex-1 ${ROW} border ${borderClass} ${
 						dark
-							? "border border-sand/20 bg-sand/6 text-sand placeholder:text-sand/40"
-							: "border border-ink/16 bg-white text-ink placeholder:text-ink/40"
+							? "bg-sand/6 text-sand placeholder:text-sand/40"
+							: "bg-white text-ink placeholder:text-ink/40"
 					}`}
 				/>
 				<button
@@ -101,9 +135,13 @@ export function SignupForm({
 					{sending ? "Sender…" : dark ? "Få tidlig tilgang" : "Tidlig tilgang"}
 				</button>
 			</div>
-			{status === "error" && (
-				<p role="alert" className="mt-3 text-[13px] text-amber">
-					Noe gikk galt, prøv igjen.
+			{error && (
+				<p
+					id={errorId}
+					role="alert"
+					className="mt-3 text-left text-[13px] text-amber"
+				>
+					{error}
 				</p>
 			)}
 			<p
