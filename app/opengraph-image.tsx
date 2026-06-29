@@ -17,9 +17,10 @@ async function loadFont(file: string): Promise<ArrayBuffer> {
 }
 
 export default async function OpengraphImage() {
-  const [medium, italic] = await Promise.all([
+  const [medium, italic, inter] = await Promise.all([
     loadFont("CormorantGaramond-500.ttf"),
     loadFont("CormorantGaramond-Italic.ttf"),
+    loadFont("Inter-500.ttf"),
   ]);
 
   return new ImageResponse(
@@ -39,9 +40,10 @@ export default async function OpengraphImage() {
         <div
           style={{
             display: "flex",
-            fontSize: 28,
+            fontFamily: "Inter",
+            fontSize: 30,
             fontWeight: 500,
-            letterSpacing: 10,
+            letterSpacing: 7,
             color: "#E8956D",
             marginBottom: 48,
           }}
@@ -95,6 +97,7 @@ export default async function OpengraphImage() {
       fonts: [
         { name: "Cormorant", data: medium, weight: 500, style: "normal" },
         { name: "Cormorant", data: italic, weight: 400, style: "italic" },
+        { name: "Inter", data: inter, weight: 500, style: "normal" },
       ],
     },
   );
